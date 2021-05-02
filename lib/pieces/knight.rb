@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 class Knight
-  attr_reader :symbol
+  attr_reader :symbol, :colour
   attr_accessor :position
 
   def initialize(colour, index)
     @colour = colour
-    @symbol = get_symbol
+    @symbol = "\u{265E}"
     @index = index
     @position = get_position
   end

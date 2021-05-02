@@ -9,5 +9,4 @@ p1 = ChessPlayer.new('Player 1', 'white')
 p2 = ChessPlayer.new('Player 2', 'black')
 game = ChessGame.new(board, p1, p2)
 
-game.set_board
-board.display_board
+game.start_game

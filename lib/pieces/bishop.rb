@@ -1,14 +1,15 @@
 # frozen_string_literal: true
 
 class Bishop
-  attr_reader :symbol
+  attr_reader :symbol, :colour
   attr_accessor :position
 
   def initialize(colour, index)
     @colour = colour
-    @symbol = get_symbol
+    @symbol = "\u{265D}"
     @index = index
     @position = get_position
+    @moves = get_moves
   end
 
   def get_symbol
@@ -21,5 +22,8 @@ class Bishop
     else
       @index == 0 ? [0, 2] : [0, 5]
     end
+  end
+
+  def get_moves
   end
 end

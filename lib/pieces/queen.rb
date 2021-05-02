@@ -1,12 +1,12 @@
 # frozen_string_literal: true
 
 class Queen
-  attr_reader :symbol
+  attr_reader :symbol, :colour
   attr_accessor :position
   
   def initialize(colour)
     @colour = colour
-    @symbol = get_symbol
+    @symbol = "\u{265B}"
     @position = get_position
   end
 

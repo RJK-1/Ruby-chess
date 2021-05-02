@@ -9,7 +9,8 @@ require_relative '../lib/pieces/king'
 
 
 class ChessPlayer
-  attr_accessor :pieces
+  attr_reader :pieces, :colour
+
   def initialize(name, colour)
     @name = name
     @colour = colour
@@ -29,5 +30,11 @@ class ChessPlayer
     pieces << King.new(@colour)
     pieces << Queen.new(@colour)
     pieces.flatten
+  end
+
+  def make_move(chosen_piece, move)
+    @pieces.each do |piece|
+      piece.position = [move[0], move[1]] if piece == chosen_piece
+    end
   end
 end
