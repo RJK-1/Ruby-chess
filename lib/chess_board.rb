@@ -5,7 +5,7 @@ require_relative '../lib/chess_player'
 require 'colorize'
 
 class ChessBoard
-  attr_reader :board
+  attr_accessor :board
   def initialize
     @board = create_board
   end
@@ -47,7 +47,7 @@ class ChessBoard
     puts '  1 2 3 4 5 6 7 8'.light_green
   end
 
-  def show_moves(piece)
+  def show_moves(piece) # currently redundant
     piece.moves.each do |move|
       @board[move[0]][move[1]] = 'X'
     end
@@ -57,5 +57,4 @@ class ChessBoard
     end
 
   end
-
 end

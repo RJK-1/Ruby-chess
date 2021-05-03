@@ -46,6 +46,7 @@ class ChessGame
     else
       move = [(input[0].ord-17).chr.to_i, (input[1].to_i) - 1]
       verified_move = check_move(move, player, piece)
+      p verified_move
       verified_move.nil? ? chose_move(player, piece) : verified_move
     end
   end
@@ -64,21 +65,78 @@ class ChessGame
   end
 
   def check_move(move, player, piece)
-    player = player == 'one' ? @player_one : @player_two
-    other_player = player == 'one' ? @player_two : @player_one
-    enemy_locations = []
-    verified_move = nil
-    if @board.board[move[0]][move[1]] == ' '
+    if piece.instance_of? Pawn
+      verified_move = check_pawn(move, player, piece)
+    elsif piece.instance_of? Knight
+      verified_move = check_knight(move, player, piece)
+    elsif piece.instance_of? Rook
+      verified_move = check_rook(move, player, piece)
+    end
+
+    verified_move if piece.moves.include? verified_move
+  end
+
+  def check_pawn(move, play, piece)
+    player = play == 'one' ? @player_one : @player_two
+    prospective_move = @board.board[move[0]][move[1]]
+    player_positions = []
+    player.pieces.each { |piece| player_positions << piece.position }
+ 
+    if prospective_move == ' ' && move[1] == piece.position[1]
+      verified_move = move
+    elsif prospective_move != ' ' && move[1] != piece.position[1] && !player_positions.include?(move)
       verified_move = move
     else
-      other_player.pieces.each { |piece| enemy_locations << piece.position }
-      if enemy_locations.include? move
-        verified_move = move
-      else
-        verified_move = nil
+      nil
+    end
+    take_piece(verified_move, play)
+    verified_move
+  end
+
+  def check_knight(move, play, piece)
+    player = play == 'one' ? @player_one : @player_two
+    prospective_move = @board.board[move[0]][move[1]]
+    player_positions = []
+    player.pieces.each { |piece| player_positions << piece.position }
+
+    verified_move = move if piece.moves.include?(move) && prospective_move == ' '
+    verified_move = move if piece.moves.include?(move) && prospective_move != ' ' && !player_positions.include?(move)
+    take_piece(verified_move, play)  
+    verified_move
+  end
+
+  def check_rook(move, play, piece)
+    player = play == 'one' ? @player_one : @player_two
+    enemy = play == 'one' ? @player_two : @player_one
+    enemy_positions = []
+    enemy.pieces.each { |piece| enemy_positions << piece.position }
+    prospective_move = @board.board[move[0]][move[1]]
+    all_free = false
+    idx = nil
+    piece.position[0] == move[0] ? idx = 1 : idx = 0
+    number = piece.position[idx] < move[idx] ? piece.position[idx] + 1 : move[idx] + 1
+    count = piece.position[idx] < move[idx] ? move[idx] - piece.position[idx] - 1 : piece.position[idx] - move[idx] - 1
+    range = []
+    count.times { range << number && number += 1 }
+    if idx == 1
+      all_free = range.all? { |val| @board.board[move[idx - 1]][val] == ' ' }
+    elsif idx == 0
+      all_free = range.all? { |val| @board.board[val][move[idx + 1]] == ' ' }
+    end
+    verified_move = move if all_free && (prospective_move == ' ' || enemy_positions.include?(move)) && piece.moves.include?(move)
+    take_piece(verified_move, play)
+    verified_move
+  end
+
+  def take_piece(verified_move, player)
+    enemy = player == 'one' ? @player_two : @player_one
+    enemy_pieces = []
+    enemy.pieces.each { |piece| enemy_pieces << piece }
+
+    enemy_pieces.map! do |piece|
+      if piece.position == verified_move
+        enemy.pieces.delete(piece)
       end
     end
-    p verified_move
-    verified_move if piece.moves.include? verified_move
   end
 end

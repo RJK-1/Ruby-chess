@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Rook
-  attr_reader :symbol, :colour
+  attr_reader :symbol, :colour, :moves
   attr_accessor :position
 
   def initialize(colour, index)
@@ -9,6 +9,7 @@ class Rook
     @symbol = "\u{265C}"
     @index = index
     @position = get_position
+    @moves = get_moves
   end
 
   def get_symbol
@@ -22,4 +23,12 @@ class Rook
       @index == 0 ? [0, 0] : [0, 7]
     end
   end
+
+  def get_moves
+    moves = []
+    8.times { |i| moves << [position[0], i] }
+    8.times { |i| moves << [i, position[1]] }
+    @moves = moves
+  end
+    
 end
