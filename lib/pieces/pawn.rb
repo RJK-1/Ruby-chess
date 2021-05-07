@@ -32,5 +32,6 @@ class Pawn
     end
     @moves.select! { |move| move[0] >= 0 && move[0] <= 7 }
     @moves.select! { |move| move[1] >= 0 && move[1] <= 7 }
+    moves
   end
 end

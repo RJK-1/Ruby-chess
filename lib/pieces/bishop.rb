@@ -49,7 +49,6 @@ class Bishop
     moves.uniq!
     moves.select! { |move| move[0] <= 7 && move[0] >= 0 && move[1] <= 7 && move[1] >= 0 }
     moves.delete(@position)
-    p moves
     @moves = moves
   end
 end
