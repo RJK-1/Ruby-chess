@@ -1,0 +1,753 @@
+--- |
+  --- !ruby/object:ChessGame
+  board: !ruby/object:ChessBoard
+    board:
+    - - &25 !ruby/object:Rook
+        colour: black
+        symbol: "♜"
+        index: 0
+        position:
+        - 0
+        - 0
+        moves:
+        - - 0
+          - 0
+        - - 0
+          - 1
+        - - 0
+          - 2
+        - - 0
+          - 3
+        - - 0
+          - 4
+        - - 0
+          - 5
+        - - 0
+          - 6
+        - - 0
+          - 7
+        - - 0
+          - 0
+        - - 1
+          - 0
+        - - 2
+          - 0
+        - - 3
+          - 0
+        - - 4
+          - 0
+        - - 5
+          - 0
+        - - 6
+          - 0
+        - - 7
+          - 0
+      - &26 !ruby/object:Knight
+        colour: black
+        symbol: "♞"
+        index: 0
+        position:
+        - 0
+        - 1
+        moves:
+        - - 2
+          - 2
+        - - 1
+          - 3
+        - - 2
+          - 0
+      - &27 !ruby/object:Bishop
+        colour: black
+        symbol: "♝"
+        index: 0
+        position:
+        - 0
+        - 2
+        moves:
+        - - 1
+          - 3
+        - - 2
+          - 4
+        - - 3
+          - 5
+        - - 4
+          - 6
+        - - 5
+          - 7
+        - - 1
+          - 1
+        - - 2
+          - 0
+      - &32 !ruby/object:Queen
+        colour: black
+        symbol: "♛"
+        position:
+        - 0
+        - 3
+        moves:
+        - - 1
+          - 4
+        - - 2
+          - 5
+        - - 3
+          - 6
+        - - 4
+          - 7
+        - - 1
+          - 2
+        - - 2
+          - 1
+        - - 3
+          - 0
+        - - 0
+          - 0
+        - - 0
+          - 1
+        - - 0
+          - 2
+        - - 0
+          - 4
+        - - 0
+          - 5
+        - - 0
+          - 6
+        - - 0
+          - 7
+        - - 1
+          - 3
+        - - 2
+          - 3
+        - - 3
+          - 3
+        - - 4
+          - 3
+        - - 5
+          - 3
+        - - 6
+          - 3
+        - - 7
+          - 3
+      - &31 !ruby/object:King
+        colour: black
+        symbol: "♚"
+        position:
+        - 0
+        - 4
+        moves:
+        - - 0
+          - 3
+        - - 0
+          - 5
+        - - 1
+          - 4
+        - - 1
+          - 3
+        - - 1
+          - 5
+      - &30 !ruby/object:Bishop
+        colour: black
+        symbol: "♝"
+        index: 1
+        position:
+        - 0
+        - 5
+        moves:
+        - - 1
+          - 6
+        - - 2
+          - 7
+        - - 1
+          - 4
+        - - 2
+          - 3
+        - - 3
+          - 2
+        - - 4
+          - 1
+        - - 5
+          - 0
+      - &29 !ruby/object:Knight
+        colour: black
+        symbol: "♞"
+        index: 1
+        position:
+        - 0
+        - 6
+        moves:
+        - - 2
+          - 7
+        - - 2
+          - 5
+        - - 1
+          - 4
+      - &28 !ruby/object:Rook
+        colour: black
+        symbol: "♜"
+        index: 1
+        position:
+        - 0
+        - 7
+        moves:
+        - - 0
+          - 0
+        - - 0
+          - 1
+        - - 0
+          - 2
+        - - 0
+          - 3
+        - - 0
+          - 4
+        - - 0
+          - 5
+        - - 0
+          - 6
+        - - 0
+          - 7
+        - - 0
+          - 7
+        - - 1
+          - 7
+        - - 2
+          - 7
+        - - 3
+          - 7
+        - - 4
+          - 7
+        - - 5
+          - 7
+        - - 6
+          - 7
+        - - 7
+          - 7
+    - - &17 !ruby/object:Pawn
+        colour: black
+        symbol: "♟"
+        number: 0
+        position:
+        - 1
+        - 0
+        moves:
+        - - 2
+          - 0
+        - - 2
+          - 1
+        - - 3
+          - 0
+      - " "
+      - &19 !ruby/object:Pawn
+        colour: black
+        symbol: "♟"
+        number: 2
+        position:
+        - 1
+        - 2
+        moves:
+        - - 2
+          - 2
+        - - 2
+          - 1
+        - - 2
+          - 3
+        - - 3
+          - 2
+      - &20 !ruby/object:Pawn
+        colour: black
+        symbol: "♟"
+        number: 3
+        position:
+        - 1
+        - 3
+        moves:
+        - - 2
+          - 3
+        - - 2
+          - 2
+        - - 2
+          - 4
+        - - 3
+          - 3
+      - " "
+      - &22 !ruby/object:Pawn
+        colour: black
+        symbol: "♟"
+        number: 5
+        position:
+        - 1
+        - 5
+        moves:
+        - - 2
+          - 5
+        - - 2
+          - 4
+        - - 2
+          - 6
+        - - 3
+          - 5
+      - &23 !ruby/object:Pawn
+        colour: black
+        symbol: "♟"
+        number: 6
+        position:
+        - 1
+        - 6
+        moves:
+        - - 2
+          - 6
+        - - 2
+          - 5
+        - - 2
+          - 7
+        - - 3
+          - 6
+      - &24 !ruby/object:Pawn
+        colour: black
+        symbol: "♟"
+        number: 7
+        position:
+        - 1
+        - 7
+        moves:
+        - - 2
+          - 7
+        - - 2
+          - 6
+        - - 3
+          - 7
+    - - " "
+      - " "
+      - " "
+      - " "
+      - &21 !ruby/object:Pawn
+        colour: black
+        symbol: "♟"
+        number: 4
+        position:
+        - 2
+        - 4
+        moves:
+        - - 3
+          - 4
+        - - 3
+          - 3
+        - - 3
+          - 5
+      - " "
+      - " "
+      - " "
+    - - " "
+      - &18 !ruby/object:Pawn
+        colour: black
+        symbol: "♟"
+        number: 1
+        position:
+        - 3
+        - 1
+        moves:
+        - - 4
+          - 1
+        - - 4
+          - 0
+        - - 4
+          - 2
+      - " "
+      - " "
+      - " "
+      - " "
+      - " "
+      - &8 !ruby/object:Pawn
+        colour: white
+        symbol: "♟"
+        number: 7
+        position:
+        - 3
+        - 7
+        moves:
+        - - 2
+          - 7
+        - - 2
+          - 6
+    - - " "
+      - " "
+      - " "
+      - " "
+      - " "
+      - &6 !ruby/object:Pawn
+        colour: white
+        symbol: "♟"
+        number: 5
+        position:
+        - 4
+        - 5
+        moves:
+        - - 3
+          - 5
+        - - 3
+          - 4
+        - - 3
+          - 6
+      - " "
+      - " "
+    - - " "
+      - " "
+      - " "
+      - " "
+      - " "
+      - " "
+      - " "
+      - " "
+    - - &1 !ruby/object:Pawn
+        colour: white
+        symbol: "♟"
+        number: 0
+        position:
+        - 6
+        - 0
+        moves:
+        - - 5
+          - 0
+        - - 5
+          - 1
+        - - 4
+          - 0
+      - &2 !ruby/object:Pawn
+        colour: white
+        symbol: "♟"
+        number: 1
+        position:
+        - 6
+        - 1
+        moves:
+        - - 5
+          - 1
+        - - 5
+          - 0
+        - - 5
+          - 2
+        - - 4
+          - 1
+      - &3 !ruby/object:Pawn
+        colour: white
+        symbol: "♟"
+        number: 2
+        position:
+        - 6
+        - 2
+        moves:
+        - - 5
+          - 2
+        - - 5
+          - 1
+        - - 5
+          - 3
+        - - 4
+          - 2
+      - &4 !ruby/object:Pawn
+        colour: white
+        symbol: "♟"
+        number: 3
+        position:
+        - 6
+        - 3
+        moves:
+        - - 5
+          - 3
+        - - 5
+          - 2
+        - - 5
+          - 4
+        - - 4
+          - 3
+      - &5 !ruby/object:Pawn
+        colour: white
+        symbol: "♟"
+        number: 4
+        position:
+        - 6
+        - 4
+        moves:
+        - - 5
+          - 4
+        - - 5
+          - 3
+        - - 5
+          - 5
+        - - 4
+          - 4
+      - " "
+      - &7 !ruby/object:Pawn
+        colour: white
+        symbol: "♟"
+        number: 6
+        position:
+        - 6
+        - 6
+        moves:
+        - - 5
+          - 6
+        - - 5
+          - 5
+        - - 5
+          - 7
+        - - 4
+          - 6
+      - " "
+    - - &9 !ruby/object:Rook
+        colour: white
+        symbol: "♜"
+        index: 0
+        position:
+        - 7
+        - 0
+        moves:
+        - - 7
+          - 0
+        - - 7
+          - 1
+        - - 7
+          - 2
+        - - 7
+          - 3
+        - - 7
+          - 4
+        - - 7
+          - 5
+        - - 7
+          - 6
+        - - 7
+          - 7
+        - - 0
+          - 0
+        - - 1
+          - 0
+        - - 2
+          - 0
+        - - 3
+          - 0
+        - - 4
+          - 0
+        - - 5
+          - 0
+        - - 6
+          - 0
+        - - 7
+          - 0
+      - &10 !ruby/object:Knight
+        colour: white
+        symbol: "♞"
+        index: 0
+        position:
+        - 7
+        - 1
+        moves:
+        - - 5
+          - 0
+        - - 5
+          - 2
+        - - 6
+          - 3
+      - &11 !ruby/object:Bishop
+        colour: white
+        symbol: "♝"
+        index: 0
+        position:
+        - 7
+        - 2
+        moves:
+        - - 6
+          - 1
+        - - 5
+          - 0
+        - - 6
+          - 3
+        - - 5
+          - 4
+        - - 4
+          - 5
+        - - 3
+          - 6
+        - - 2
+          - 7
+      - &16 !ruby/object:Queen
+        colour: white
+        symbol: "♛"
+        position:
+        - 7
+        - 3
+        moves:
+        - - 6
+          - 2
+        - - 5
+          - 1
+        - - 4
+          - 0
+        - - 6
+          - 4
+        - - 5
+          - 5
+        - - 4
+          - 6
+        - - 3
+          - 7
+        - - 7
+          - 0
+        - - 7
+          - 1
+        - - 7
+          - 2
+        - - 7
+          - 4
+        - - 7
+          - 5
+        - - 7
+          - 6
+        - - 7
+          - 7
+        - - 0
+          - 3
+        - - 1
+          - 3
+        - - 2
+          - 3
+        - - 3
+          - 3
+        - - 4
+          - 3
+        - - 5
+          - 3
+        - - 6
+          - 3
+      - &15 !ruby/object:King
+        colour: white
+        symbol: "♚"
+        position:
+        - 7
+        - 4
+        moves:
+        - - 7
+          - 3
+        - - 7
+          - 5
+        - - 6
+          - 4
+        - - 6
+          - 3
+        - - 6
+          - 5
+      - &14 !ruby/object:Bishop
+        colour: white
+        symbol: "♝"
+        index: 1
+        position:
+        - 7
+        - 5
+        moves:
+        - - 6
+          - 4
+        - - 5
+          - 3
+        - - 4
+          - 2
+        - - 3
+          - 1
+        - - 2
+          - 0
+        - - 6
+          - 6
+        - - 5
+          - 7
+      - &13 !ruby/object:Knight
+        colour: white
+        symbol: "♞"
+        index: 1
+        position:
+        - 7
+        - 6
+        moves:
+        - - 5
+          - 5
+        - - 6
+          - 4
+        - - 5
+          - 7
+      - &12 !ruby/object:Rook
+        colour: white
+        symbol: "♜"
+        index: 1
+        position:
+        - 7
+        - 7
+        moves:
+        - - 7
+          - 0
+        - - 7
+          - 1
+        - - 7
+          - 2
+        - - 7
+          - 3
+        - - 7
+          - 4
+        - - 7
+          - 5
+        - - 7
+          - 6
+        - - 7
+          - 7
+        - - 0
+          - 7
+        - - 1
+          - 7
+        - - 2
+          - 7
+        - - 3
+          - 7
+        - - 4
+          - 7
+        - - 5
+          - 7
+        - - 6
+          - 7
+        - - 7
+          - 7
+  player_one: !ruby/object:ChessPlayer
+    name: Player 1
+    colour: white
+    pieces:
+    - *1
+    - *2
+    - *3
+    - *4
+    - *5
+    - *6
+    - *7
+    - *8
+    - *9
+    - *10
+    - *11
+    - *12
+    - *13
+    - *14
+    - *15
+    - *16
+  player_two: !ruby/object:ChessPlayer
+    name: Player 2
+    colour: black
+    pieces:
+    - *17
+    - *18
+    - *19
+    - *20
+    - *21
+    - *22
+    - *23
+    - *24
+    - *25
+    - *26
+    - *27
+    - *28
+    - *29
+    - *30
+    - *31
+    - *32
+  move: one

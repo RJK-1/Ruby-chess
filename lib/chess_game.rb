@@ -1,71 +1,112 @@
 # frozen_string_literal: true
 
 require_relative '../lib/chess_board'
+require 'colorize'
+require 'yaml'
 
 class ChessGame
   def initialize(board, p1, p2)
     @board = board
     @player_one = p1
     @player_two = p2
+    @move = 'one'
   end
 
   def start_game
+    welcome_message
+    input = gets.chomp.to_i
+    load_game if input == 2
     @board.set_board(@player_one, true)
     @board.set_board(@player_two, true)
-    welcome_message
     play_game
   end
 
   def welcome_message
     puts 'Welcome to Chess!'.light_blue.bold
+    puts 'Press 1 to start a new game, or 2 to load a save'.light_blue
     puts 'Press S at any point to save'.light_blue
-    puts 'All inputs are not case sensitive'.light_blue, ''
+    puts 'Inputs are not case sensitive'.light_blue, ''
   end
 
-  def play_game(player = 'one', reset = nil)
+  def play_game(player = @move, reset = nil, check_status = false, attacking_piece = nil)
+    @move = player
     current_player = player == 'one' ? @player_one : @player_two
     @board.display_board if reset == nil
-    selected_piece = select_piece(player)
+    selected_piece = select_piece(player, check_status)
     old_pos = selected_piece.position
     selected_piece.get_moves
-    move = chose_move(player, selected_piece)
+    move = chose_move(player, selected_piece, check_status, attacking_piece)
     take_piece(move, player)
     current_player.make_move(selected_piece, move)
     selected_piece.get_moves
     @board.set_board(current_player, false, selected_piece, old_pos)
     check = check?(player)
     check_mate = check_mate?(player, selected_piece) if check
-    puts "Check".red.bold if check && check_mate == false 
     if check_mate == false || check_mate == nil
-      player == 'one' ? play_game('two') : play_game('one')
+      if check
+        player == 'one' ? play_game('two', nil, true, selected_piece) : play_game('one', nil, true, selected_piece)
+      else
+        player == 'one' ? play_game('two') : play_game('one')
+      end
     elsif check_mate
       puts "Check Mate".red.bold
       end_game(player)
     end
   end
 
-  def select_piece(player)
+  def save_game
+    puts "Saved"
+    yaml = YAML::dump(self)
+    file = File.open('Chess.yml', 'w') {|file| file.write  yaml.to_yaml}
+    exit 
+  end 
+
+  def load_game
+    data = File.open('Chess.yml', 'r') { |f| YAML.load(f) }
+    game = YAML.load(data)
+    puts 'Game loaded!'.green.bold
+    game.play_game
+    
+  end
+
+  def select_piece(player, check_status)
     puts "Player #{player.capitalize}, Please choose one of your pieces to move (e.g. A2)".light_black
+    puts "Check! Your king is under attack, you must either defend or move your king!".red.bold if check_status
     input = gets.chomp.upcase.split('')
+    save_game if input == ['S']
     if !input.join.match?(/^[A-H]{1}[0-8]{1}$/)
-      select_piece(player)
+      select_piece(player, check_status)
     else
       start = [(input[0].ord-17).chr.to_i, (input[1].to_i) - 1]
       starting_piece = check_piece(start, player)
-      starting_piece.nil? ? select_piece(player) : starting_piece
+      starting_piece.nil? ? select_piece(player, check_status) : starting_piece
     end
   end
 
-  def chose_move(player, piece)
+  def chose_move(player, piece, check_status = nil, attacking_piece = nil)
+    check = false
+    enemy = player == 'one' ? 'two' : 'one'
+    current_player = player == 'one' ? @player_one : @player_two
+    old_pos = piece.position
     puts "Please choose where to move your piece (e.g. B2) Press 'X' to change piece".light_black
     input = gets.chomp.upcase.split('')
-    play_game(player, true) if input == ['X']
+    play_game(player, true, true, attacking_piece) if input == ['X']
+    save_game if input == ['S']
     if !input.join.match?(/^[A-H]{1}[0-8]{1}$/)
       chose_move(player, piece) 
     else
       move = [(input[0].ord-17).chr.to_i, (input[1].to_i) - 1]
       verified_move = check_move(move, player, piece)
-      verified_move.nil? ? chose_move(player, piece) : verified_move
+      if check_status && !verified_move.nil?
+        current_player.make_move(piece, verified_move)
+        @board.set_board(current_player, false, piece, old_pos)
+        not_allowed = check?(enemy)
+        current_player.make_move(piece, old_pos)
+        @board.set_board(current_player, false, piece, verified_move)  
+        not_allowed ? check = true : check = false
+      end
+      puts "You can only move to defend the king".red if check == true
+      !verified_move.nil? && check == false ? verified_move : chose_move(player, piece, check_status)
     end
   end
 
