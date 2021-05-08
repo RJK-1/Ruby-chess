@@ -9,7 +9,7 @@ require_relative '../lib/pieces/king'
 
 
 class ChessPlayer
-  attr_reader :colour
+  attr_reader :colour, :name
   attr_accessor :pieces
 
   def initialize(name, colour)
