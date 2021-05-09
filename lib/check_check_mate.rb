@@ -48,4 +48,28 @@ module CheckChecker
     end
     move_king && defending_pieces.length == 0 && blocking_pieces.length == 0 ? check_mate = true : check_mate = false
   end
+
+  def check_draw(player)
+    enemy = player == @player_one ? @player_two : @player_one
+    player_pieces = []
+    enemy_pieces = []
+    enemy_king_moves = []
+    player_moves = []
+    draw = false
+    player.pieces.each { |piece| player_pieces << piece }
+    enemy.pieces.each { |piece| enemy_pieces << piece }
+    if enemy_pieces.length == 1
+      enemy_pieces[0].moves.each { |move| enemy_king_moves << move }
+      player_pieces.each { |piece| piece.moves.each { |move| player_moves << move } }
+      enemy_king_moves.each { |move| enemy_king_moves.delete(move) if player_moves.include?(move) }
+      draw = 'stalemate' if enemy_king_moves.length == 0
+    end
+    if player_pieces.length == 1 && enemy_pieces.length == 1
+      draw = true
+    elsif player_pieces.length == 2 && enemy_pieces.length == 1
+      draw_pieces = player_pieces.select {|piece| piece.instance_of?(King) || piece.instance_of?(Knight) || piece.instance_of?(Bishop) }
+      draw = true if draw_pieces.length == 2
+    end
+    draw
+  end
 end

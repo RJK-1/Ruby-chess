@@ -3,16 +3,12 @@
 class Queen
   attr_reader :symbol, :colour, :moves
   attr_accessor :position
-  
-  def initialize(colour)
+   
+  def initialize(colour, position = nil)
     @colour = colour
     @symbol = "\u{265B}"
-    @position = get_position
+    @position = position.nil? ? get_position : position
     @moves = get_moves
-  end
-
-  def get_symbol
-    @colour == 'white' ? "\u{2655}" : "\u{265B}"
   end
 
   def get_position

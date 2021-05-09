@@ -14,10 +14,6 @@ class Pawn
     @moves = get_moves
   end
 
-  def get_symbol
-    @colour == 'white' ? "\u{2659}" : "\u{265F}"
-  end
-
   def get_position
     @colour == 'white' ? @position = [6, @number] : @position = [1, @number]
   end

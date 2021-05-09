@@ -43,12 +43,13 @@ class ChessGame
     selected_piece.get_moves
     move = chose_move(player, selected_piece, check_status, attacking_piece)
     take_piece(move, player)
-    player.make_move(selected_piece, move)
+    selected_piece = player.make_move(selected_piece, move)
     selected_piece.get_moves
     @board.set_board(player, false, selected_piece, old_pos)
     check = check?(player)
+    draw = check_draw(player)
     check_mate = check_mate?(player, selected_piece) if check
-    if check_mate == false || check_mate == nil
+    if check_mate == false || check_mate == nil && draw == false
       if check
         player == @player_one ? play_game(@player_two, nil, true, selected_piece) : play_game(@player_two, nil, true, selected_piece)
       else
@@ -57,6 +58,8 @@ class ChessGame
     elsif check_mate
       puts "Check Mate".red.bold
       end_game(player)
+    elsif draw
+      end_game(player, draw)
     end
   end
 
@@ -76,20 +79,18 @@ class ChessGame
 
   def chose_move(player, piece, check_status = nil, attacking_piece = nil)
     check = false
-    enemy = player == @player_one ? @player_one : @player_two
+    enemy = player == @player_one ? @player_two : @player_one
     old_pos = piece.position
     puts "Please choose where to move your piece (e.g. B2) Press 'X' to change piece".light_black
     input = gets.chomp.upcase.split('')
-    play_game(player, true, true, attacking_piece) if input == ['X']
+    play_game(player, true, check_status, attacking_piece) if input == ['X']
     save_game if input == ['S']
     if !input.join.match?(/^[A-H]{1}[0-8]{1}$/)
       chose_move(player, piece) 
     else
       move = [(input[0].ord-17).chr.to_i, (input[1].to_i) - 1]
       verified_move = check_move(move, player, piece)
-      p verified_move
       if check_status && !verified_move.nil?
-        p "here"
         player.make_move(piece, verified_move)
         @board.set_board(player, false, piece, old_pos)
         not_allowed = check?(enemy)
@@ -114,47 +115,10 @@ class ChessGame
     chosen_piece
   end
 
-  def check_move(move, player, piece)
-    if piece.instance_of? Pawn
-      verified_move = check_pawn(move, player, piece)
-    elsif piece.instance_of? Knight
-      verified_move = check_knight(move, player, piece)
-    elsif piece.instance_of? Rook
-      verified_move = check_rook(move, player, piece)
-    elsif piece.instance_of? Bishop
-      verified_move = check_bishop(move, player, piece)
-    elsif piece.instance_of? Queen
-      verified_move = check_queen(move, player, piece)
-    elsif piece.instance_of? King
-      verified_move = check_king(move, player, piece)
-    verified_move if piece.moves.include? verified_move
-    end
-  end
-
-  def get_steps(move, player, piece)
-    step = [0, 0]
-    step_list = []
-    current_step = piece.position
-    if piece.position[0] != move[0] && piece.position[1] != move[1]
-      move[0] > piece.position[0] ? step[0] = 1 : step[0] = -1
-      move[1] > piece.position[1] ? step[1] = 1 : step[1] = -1
-    else
-      step[0] = 0 if move[0] == piece.position[0]
-      step[0] = 1 if move[0] > piece.position[0]
-      step[0] = -1 if move[0] < piece.position[0]
-      step[1] = 0 if move[1] == piece.position[1]
-      step[1] = 1 if move[1] > piece.position[1]
-      step[1] = -1 if move[1] < piece.position[1]
-    end
-    until step_list[-1] == move do
-      step_list << current_step
-      current_step = [current_step[0] + step[0], current_step[1] + step[1]]
-    end
-    step_list = step_list[1..-2]
-  end
-
-  def end_game(player)
-    puts "#{player.name} has won the game!"
+  def end_game(player, draw = false)
+    puts "#{player.name} has won the game!" if draw == false
+    puts 'The game is a draw!' if draw == true
+    puts 'Stalemate!' if draw == 'stalemate'
     @board.display_board
   end
 

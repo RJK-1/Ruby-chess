@@ -11,10 +11,6 @@ class King
     @moves = get_moves
   end
 
-  def get_symbol
-    @colour == 'white' ? "\u{2654}" : "\u{265A}"
-  end
-
   def get_position
     @colour == 'white' ? @position = [7, 4] : @position = [0, 4]
   end

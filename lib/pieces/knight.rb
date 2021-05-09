@@ -4,16 +4,12 @@ class Knight
   attr_reader :symbol, :colour, :moves
   attr_accessor :position
 
-  def initialize(colour, index)
+  def initialize(colour, index, position = nil)
     @colour = colour
     @symbol = "\u{265E}"
     @index = index
-    @position = get_position
+    @position = position.nil? ? get_position : position
     @moves = get_moves
-  end
-
-  def get_symbol
-    @colour == 'white' ? "\u{2658}" : "\u{265E}"
   end
 
   def get_position

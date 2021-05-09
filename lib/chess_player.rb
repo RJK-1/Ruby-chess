@@ -6,6 +6,7 @@ require_relative '../lib/pieces/knight'
 require_relative '../lib/pieces/bishop'
 require_relative '../lib/pieces/queen'
 require_relative '../lib/pieces/king'
+require 'colorize'
 
 
 class ChessPlayer
@@ -37,5 +38,31 @@ class ChessPlayer
     @pieces.each do |piece|
       piece.position = [move[0], move[1]] if piece == chosen_piece
     end
+    if chosen_piece.instance_of?(Pawn) && [0, 7].include?(chosen_piece.position[0])
+      chosen_piece = promote_pawn(chosen_piece)
+    end
+    chosen_piece
+  end
+
+  def promote_pawn(pawn)
+    pieces = ['queen', 'rook', 'bishop', 'knight']
+    puts 'What piece would you like to promote the pawn to? (Queen, Bishop, Rook, Knight)'.green.bold
+    input = gets.chomp.downcase
+    promote_pawn(pawn) if !pieces.include?(input)
+    if input == 'queen'
+      promoted = Queen.new(@colour, pawn.position)
+      @pieces << promoted
+    elsif input == 'knight'
+      promoted = Knight.new(@colour, nil, pawn.position)
+      @pieces << promoted
+    elsif input == 'bishop'
+      promoted = Bishop.new(@colour, nil, pawn.position)
+      @pieces << promoted
+    elsif input == 'rook'
+      promoted = Rook.new(@colour, nil, pawn.position)
+      @pieces << promoted
+    end
+    @pieces.delete(pawn)
+    promoted
   end
 end
